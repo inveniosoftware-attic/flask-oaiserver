@@ -10,8 +10,11 @@
 """OAI-PMH 2.0 server."""
 
 from __future__ import absolute_import
-from flask import Blueprint, request, render_template
-from invenio.base.decorators import wash_arguments
+from flask import (Blueprint,
+                   request,
+                   render_template,
+                   g,
+                   make_response)
 from errors import BadVerbError
 from views.verbs import (identify,
                          list_sets,
@@ -19,7 +22,7 @@ from views.verbs import (identify,
                          list_records,
                          list_identifiers,
                          get_record)
-import sys
+from datetime import datetime
 
 ALLOWED_VERBS = {'Identify':identify,
                  'ListSets':list_sets,
@@ -37,12 +40,15 @@ blueprint = Blueprint(
 )
 
 @blueprint.route('/', methods=['GET', 'POST'])
-#@wash_arguments({'verb': (unicode, None)})
 def server():
     verb = request.args.get("verb")
+    g.response_date = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%Sz")
     try:
         a = ALLOWED_VERBS[verb]
-        return a()
+        output_xml = a()
+        response = make_response(output_xml)
+        response.headers["Content-Type"] = "application/xml"
+        return response
     except KeyError:
         raise BadVerbError("This is not a valid OAI-PMH verb: {0}".format(verb))
     except:
@@ -51,4 +57,4 @@ def server():
 
 @blueprint.route('/config')
 def index():
-    return render_template('oaiserver/index.html')
+    return render_template('oaiserver/config/index.html')

@@ -1,0 +1,5 @@
+{% extends "oaiserver/xml/base.xml" %}
+
+{% block body %}
+{{ message }}
+{% endblock %}

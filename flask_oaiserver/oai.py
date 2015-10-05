@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, current_app
 from views.server import blueprint
 
 app = Flask(__name__)

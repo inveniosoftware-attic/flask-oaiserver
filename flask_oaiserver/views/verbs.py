@@ -1,5 +1,5 @@
 from errors import BadArgumentError
-from flask import request
+from flask import request, render_template
 
 def _get_all_request_args():
     tmp_args_dict = {}
@@ -34,7 +34,7 @@ def identify():
     exclusiv_arg = []
     incoming = _get_all_request_args()
     _check_args(incoming, required_arg, optional_arg, exclusiv_arg)
-    return "This is idenification of an OAI-PMH"
+    return render_template("oaiserver/xml/identify.xml",message="This is idenification of an OAI-PMH")
 
 def list_sets():
     required_arg = []
