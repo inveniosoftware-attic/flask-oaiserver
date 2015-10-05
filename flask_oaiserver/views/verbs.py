@@ -3,12 +3,13 @@ from flask import request
 
 def _get_all_request_args():
     tmp_args_dict = {}
-    for key, value in request.args.iteritems:
+    for key, value in request.args.iteritems():
         tmp_args_dict[key] = value
     return tmp_args_dict
 
 def _check_args(incoming, required, optional, exlusive):
     ## TODO: include checking for duplicated arguments
+    ## TODO: check for more arguments passed
     def _pop_arg_from_incoming(arg):
         try:
             return incoming.pop(arg)
@@ -17,17 +18,17 @@ def _check_args(incoming, required, optional, exlusive):
         except:
             raise
 
-    if required not in incoming:
+    _pop_arg_from_incoming("verb")
+    if not set(required).issubset(set(incoming.keys())):
         raise BadArgumentError("You are missing required arguments")
-    if exlusive in incoming:
+    if set(exlusive).issubset(set(incoming.keys())):
         for arg in exlusive:
             _pop_arg_from_incoming(arg)
-        _pop_arg_from_incoming("verb")
         if len(incoming):
-            raise BadArgumentError("You have passed to manu arguments together with EXLUSIVE argument.")
+            raise BadArgumentError("You have passed too many arguments together with EXLUSIVE argument.")
 
 
-def _identify():
+def identify():
     required_arg = []
     optional_arg = []
     exclusiv_arg = []
@@ -35,7 +36,7 @@ def _identify():
     _check_args(incoming, required_arg, optional_arg, exclusiv_arg)
     return "This is idenification of an OAI-PMH"
 
-def _list_sets():
+def list_sets():
     required_arg = []
     optional_arg = []
     exclusiv_arg = ["resumptionToken"]
@@ -43,7 +44,7 @@ def _list_sets():
     _check_args(incoming, required_arg, optional_arg, exclusiv_arg)
     return "Here you can see all the sets"
 
-def _list_metadata_formats():
+def list_metadata_formats():
     required_arg = []
     optional_arg = ["identifier"]
     exclusiv_arg = []
@@ -51,7 +52,7 @@ def _list_metadata_formats():
     _check_args(incoming, required_arg, optional_arg, exclusiv_arg)
     return "I am showing metadata formats here"
 
-def _list_records():
+def list_records():
     required_arg = ["metadataPrefix"]
     optional_arg = ["from", "until", "set"]
     exclusiv_arg = ["resumptionToken"]
@@ -59,7 +60,7 @@ def _list_records():
     _check_args(incoming, required_arg, optional_arg, exclusiv_arg)
     return "I am going to return records from {0} until {1} in a set {2} in {3} and this is continuation of {4}".format(incoming["from"], incoming["until"], incoming["set"], incoming["metadtaPrefix"], incoming["resumptionToken"])
 
-def _list_identifiers():
+def list_identifiers():
     required_arg = ["metadataPrefix"]
     optional_arg = ["from", "until", "set"]
     exclusiv_arg = ["resumptionToken"]
@@ -75,7 +76,7 @@ def _list_identifiers():
         incoming["metadataPrefix"] = None
     return "I am going to return identifiers from {0} until {1} in a set {2} in {3} and this is continuation of {4}".format(incoming["from"], incoming["until"], incoming["set"], incoming["metadtaPrefix"], incoming["resumptionToken"])
 
-def _get_record():
+def get_record():
     required_arg = ["identifier","metadataPrefix"]
     optional_arg = []
     exclusiv_arg = []

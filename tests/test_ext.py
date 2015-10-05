@@ -10,7 +10,6 @@
 from __future__ import absolute_import
 
 from helpers import FlaskTestCase
-from flask_oaiserver import OAIServer
 
 
 class TestOAIServer(FlaskTestCase):

@@ -1,13 +1,9 @@
-from flask import Flask, url_for
+from flask import Flask
 from views.server import blueprint
 
 app = Flask(__name__)
 app.register_blueprint(blueprint)
 app.debug = True
-
-# @app.route('/')
-# def index():
-#     return "It works!"
 
 # def has_no_empty_params(rule):
 #     defaults = rule.defaults if rule.defaults is not None else ()
