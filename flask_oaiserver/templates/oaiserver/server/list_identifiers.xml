@@ -1,0 +1,33 @@
+{% extends "oaiserver/server/base.xml" %}
+
+{% block body %}
+<request verb="ListIdentifiers"
+         {% if incoming.from %}
+            from="{{ incoming.from }}"
+         {% endif %}
+         {% if incoming.until %}
+            until="{{ incoming.until }}"
+         {% endif %}
+         {% if incoming.set %}
+            set="{{ incoming.set }}"
+         {% endif %}
+         {% if incoming.metadataPrefix %}
+            metadataPrefix="{{ incoming.metadataPrefix }}"
+         {% endif %}>
+         http://an.oa.org/OAI-script
+</request>
+<ListIdentifiers>
+    {% for record in records %}
+        <header>
+            <identifier>{{ record.identifier }}</identifier>
+            <datestamp>{{ record.datestamp }}</datestamp>
+            {% for set in record.sets %}
+                <setSpec>{{ set }}</setSpec>
+            {% endfor %}
+        </header>
+    {% endfor %}
+    <resumptionToken expirationDate="2002-06-01T23:20:00Z"
+    completeListSize="6"
+    cursor="0">xxx45abttyz</resumptionToken>
+</ListIdentifiers>
+{% endblock %}

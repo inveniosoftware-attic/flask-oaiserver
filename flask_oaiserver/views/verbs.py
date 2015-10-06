@@ -66,15 +66,18 @@ def list_identifiers():
     exclusiv_arg = ["resumptionToken"]
     incoming = _get_all_request_args()
     _check_args(incoming, required_arg, optional_arg, exclusiv_arg)
-    if "from" not in incoming:
-        incoming["from"] = None
-    if "until" not in incoming:
-        incoming["from"] = None
-    if "set" not in incoming:
-        incoming["from"] = None
-    if "metadataPrefix" not in incoming:
-        incoming["metadataPrefix"] = None
-    return "I am going to return identifiers from {0} until {1} in a set {2} in {3} and this is continuation of {4}".format(incoming["from"], incoming["until"], incoming["set"], incoming["metadtaPrefix"], incoming["resumptionToken"])
+    return render_template("list_identifiers.xml",
+                           incoming=incoming,
+                           records=[{'identifier':'tmpidentifier1',
+                                     'datestamp':'2015-10-06',
+                                     'sets':['set1']},
+                                    {'identifier':'tmpidentifier2',
+                                     'datestamp':'2003-04-01',
+                                     'sets':['set1','set2']},
+                                    {'identifier':'tmpidentifier3',
+                                     'datestamp':'2014-07-13',
+                                     'sets':['set3','set1']}
+                                    ])
 
 def get_record():
     required_arg = ["identifier","metadataPrefix"]
