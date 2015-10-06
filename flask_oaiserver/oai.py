@@ -1,8 +1,10 @@
 from flask import Flask, current_app
-from views.server import blueprint
+from views.server import blueprint as server
+from views.settings import blueprint as settings
 
 app = Flask(__name__)
-app.register_blueprint(blueprint)
+app.register_blueprint(server)
+app.register_blueprint(settings)
 app.debug = True
 
 # def has_no_empty_params(rule):

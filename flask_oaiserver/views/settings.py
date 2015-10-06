@@ -33,26 +33,13 @@ ALLOWED_VERBS = {'Identify':identify,
                  'GetRecord':get_record}
 
 blueprint = Blueprint(
-    'oai2d',
+    'oaisettings',
     __name__,
-    url_prefix='/oai2d',
+    url_prefix='/oaisettings',
     static_folder="../static",
-    template_folder="../templates/oaiserver/server",
+    template_folder="../templates/oaiserver/settings",
 )
 
-@blueprint.route('/', methods=['GET', 'POST'])
-def server():
-    verb = request.args.get("verb")
-    g.response_date = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%Sz")
-    g.admin_email = CFG_ADMIN_EMAIL
-    g.repository_name = CFG_SITE_NAME
-    try:
-        a = ALLOWED_VERBS[verb]
-        output_xml = a()
-        response = make_response(output_xml)
-        response.headers["Content-Type"] = "application/xml"
-        return response
-    except KeyError:
-        raise BadVerbError("This is not a valid OAI-PMH verb: {0}".format(verb))
-    except:
-        raise
+@blueprint.route('/')
+def index():
+    return render_template('index.html')
