@@ -1,0 +1,18 @@
+{% extends "oaiserver/server/base.xml" %}
+
+{% block body %}
+    {% if g.verb %}
+        <request verb="{{ g.verb }}"
+                 {% for key, value in incoming.iteritems() %}
+                    {{ key }}="{{ value }}"
+                 {% endfor %}>
+                 http://an.oa.org/OAI-script
+        </request>
+    {% endif %}
+    <error code="{{ g.error.type }}"
+    {% if g.error.message %}
+        >{{ g.error.message }}</error>
+    {% else %}
+        />
+    {% endif %}
+{% endblock %}

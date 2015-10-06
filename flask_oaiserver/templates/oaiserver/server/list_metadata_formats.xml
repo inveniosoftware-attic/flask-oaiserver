@@ -1,0 +1,19 @@
+{% extends "oaiserver/server/base.xml" %}
+
+{% block body %}
+<request verb="ListMetadataFormats"
+         {% if incoming.identifier %}
+            identifier="{{ incoming.identifier }}"
+         {% endif %}>
+    http://an.oa.org/OAI-script
+</request>
+<ListMetadataFormats>
+    {% for foramt in formats %}
+        <metadataFormat>
+            <metadataPrefix>{{ format.prefix }}</metadataPrefix>
+            <schema>{{ format.schema }}</schema>
+            <metadataNamespace>{{ format.namespace }}</metadataNamespace>
+        </header>
+    {% endfor %}
+</ListMetadataFormats>
+{% endblock %}

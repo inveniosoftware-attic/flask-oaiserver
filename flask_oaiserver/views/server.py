@@ -53,6 +53,9 @@ def server():
         response.headers["Content-Type"] = "application/xml"
         return response
     except KeyError:
-        raise BadVerbError("This is not a valid OAI-PMH verb: {0}".format(verb))
+        g.error = {}
+        g.error['message'] = "This is not a valid OAI-PMH verb: {0}".format(verb)
+        g.error['type'] = "badValue"
+        return render_template("error.xml")
     except:
         raise

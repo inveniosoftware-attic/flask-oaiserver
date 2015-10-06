@@ -1,3 +1,5 @@
+from flask import render_template, g
+
 class BadArgumentError(Exception):
     """The request includes illegal arguments, is missing required arguments, includes a repeated argument, or values for arguments have an illegal syntax."""
     def __init__(self, message, **kwargs):
@@ -36,6 +38,11 @@ class BadVerbError(Exception):
         """String representation."""
         return "BadVerbError({0}, payload: {1}".format(repr(self.message), repr(self.payload) or "None")
 
+    def __repr__(self):
+        g.error = {}
+        g.error['message'] = self.message
+        g.error['type'] = "badVerb"
+        return render_template("error.xml")
 
 class CannotDisseminateFormatError(Exception):
     """The metadata format identified by the value given for the metadataPrefix argument is not supported by the item or by the repository."""
