@@ -34,7 +34,7 @@ def identify():
     exclusiv_arg = []
     incoming = _get_all_request_args()
     _check_args(incoming, required_arg, optional_arg, exclusiv_arg)
-    return render_template("oaiserver/xml/identify.xml",message="This is idenification of an OAI-PMH")
+    return render_template("oaiserver/xml/identify.xml")
 
 def list_sets():
     required_arg = []

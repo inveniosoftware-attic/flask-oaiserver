@@ -1,5 +1,15 @@
 {% extends "oaiserver/xml/base.xml" %}
 
 {% block body %}
-{{ message }}
+<request verb="Identify">http://memory.loc.gov/cgi-bin/oai</request>
+<Identify>
+    <repositoryName>{{ g.repository_name }}</repositoryName>
+    <baseURL>http://memory.loc.gov/cgi-bin/oai</baseURL>
+    <protocolVersion>2.0</protocolVersion>
+    <adminEmail>{{ g.admin_email }}</adminEmail>
+    <earliestDatestamp>1990-02-01T12:00:00Z</earliestDatestamp>
+    <deletedRecord>transient</deletedRecord>
+    <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
+    <compression>deflate</compression>
+ </Identify>
 {% endblock %}
