@@ -21,8 +21,9 @@ def _check_args(incoming, required, optional, exlusive):
     g.error = {}
     _pop_arg_from_incoming("verb")
     if not set(required).issubset(set(incoming.keys())):
+        missing_arguments = set(required)-set(incoming.keys())
         g.error["type"] = "badArgument"
-        g.error["message"] = "You are missing required arguments"
+        g.error["message"] = "You are missing required arguments: {0}".format(missing_arguments)
     if set(exlusive).issubset(set(incoming.keys())):
         for arg in exlusive:
             _pop_arg_from_incoming(arg)
@@ -50,7 +51,19 @@ def list_sets():
     if g.error:
         return render_template("error.xml", incoming=incoming)
     else:
-        return "Here you can see all the sets"
+        return render_template("list_sets.xml",
+                               incoming=incoming,
+                               sets=[{'spec':'music',
+                                      'name':'Music collection',
+                                      'description':'This is a collection of wide range of music.'},
+                                     {'spec':'music:(chopin)',
+                                      'name':'Chopin collection',
+                                      'description':'Collection of music composed by Chopin'},
+                                     {'spec':'music:(techno)',
+                                      'name':'Techno music collection'},
+                                     {'spec':'pictures',
+                                      'name':'Pictures collection'}
+                                     ])
 
 def list_metadata_formats():
     required_arg = []
@@ -61,7 +74,15 @@ def list_metadata_formats():
     if g.error:
         return render_template("error.xml", incoming=incoming)
     else:
-        return "I am showing metadata formats here"
+        return render_template("list_metadata_formats.xml",
+                               incoming=incoming,
+                               formats=[{'prefix':'oai_dc',
+                                         'schema':'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
+                                         'namespace':'http://www.openarchives.org/OAI/2.0/oai_dc/'},
+                                        {'prefix':'marcxml',
+                                         'schema':'http://purl.org/dc/elements/1.1/',
+                                         'namespace':'http://www.openarchives.org/OAI/1.1/dc.xsd'}
+                                        ])
 
 def list_records():
     required_arg = ["metadataPrefix"]
@@ -72,7 +93,18 @@ def list_records():
     if g.error:
         return render_template("error.xml", incoming=incoming)
     else:
-        return render_template("list_records.xml", incoming=incoming)  # "I am going to return records from {0} until {1} in a set {2} in {3} and this is continuation of {4}".format(incoming["from"], incoming["until"], incoming["set"], incoming["metadtaPrefix"], incoming["resumptionToken"])
+        return render_template("list_records.xml",
+                               incoming=incoming,
+                               records=[{'identifier':'tmpidentifier1',
+                                         'datestamp':'2015-10-06',
+                                         'sets':['set1']},
+                                        {'identifier':'tmpidentifier2',
+                                         'datestamp':'2003-04-01',
+                                         'sets':['set1','set2']},
+                                        {'identifier':'tmpidentifier3',
+                                         'datestamp':'2014-07-13',
+                                         'sets':['set3','set1']}
+                                        ])
 
 def list_identifiers():
     required_arg = ["metadataPrefix"]

@@ -8,12 +8,12 @@
     http://an.oa.org/OAI-script
 </request>
 <ListMetadataFormats>
-    {% for foramt in formats %}
+    {% for format in formats %}
         <metadataFormat>
             <metadataPrefix>{{ format.prefix }}</metadataPrefix>
             <schema>{{ format.schema }}</schema>
             <metadataNamespace>{{ format.namespace }}</metadataNamespace>
-        </header>
+        </metadataFormat>
     {% endfor %}
 </ListMetadataFormats>
 {% endblock %}

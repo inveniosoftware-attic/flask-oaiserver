@@ -15,7 +15,6 @@ from flask import (Blueprint,
                    render_template,
                    g,
                    make_response)
-from errors import BadVerbError
 from views.verbs import (identify,
                          list_sets,
                          list_metadata_formats,
@@ -48,14 +47,13 @@ def server():
     g.repository_name = CFG_SITE_NAME
     try:
         a = ALLOWED_VERBS[verb]
-        output_xml = a()
-        response = make_response(output_xml)
-        response.headers["Content-Type"] = "application/xml"
-        return response
     except KeyError:
         g.error = {}
         g.error['message'] = "This is not a valid OAI-PMH verb: {0}".format(verb)
         g.error['type'] = "badValue"
         return render_template("error.xml")
-    except:
-        raise
+
+    output_xml = a()
+    response = make_response(output_xml)
+    response.headers["Content-Type"] = "application/xml"
+    return response

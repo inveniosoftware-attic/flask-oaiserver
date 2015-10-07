@@ -25,6 +25,12 @@
                 <setSpec>{{ set }}</setSpec>
             {% endfor %}
         </header>
+        <metadata>
+            placeholder
+        </metadata>
+        <about>
+            placeholder
+        </about>
     {% endfor %}
     <resumptionToken expirationDate="2002-06-01T23:20:00Z"
     completeListSize="6"
