@@ -12,7 +12,7 @@ from __future__ import absolute_import
 from helpers import FlaskTestCase
 
 
-class TestOAIServer(FlaskTestCase):
+class TestVerbs(FlaskTestCase):
     """
-    Tests of extension creation
+    Tests OAI-PMH verbs
     """

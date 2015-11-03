@@ -9,6 +9,9 @@ def _get_all_request_args():
 def _check_args(incoming, required, optional, exlusive):
     ## TODO: include checking for duplicated arguments
     ## TODO: check for more arguments passed
+    g.verb = incoming["verb"]
+    g.error = {}
+
     def _pop_arg_from_incoming(arg):
         try:
             return incoming.pop(arg)
@@ -17,19 +20,23 @@ def _check_args(incoming, required, optional, exlusive):
         except:
             raise
 
-    g.verb = incoming["verb"]
-    g.error = {}
-    _pop_arg_from_incoming("verb")
-    if not set(required).issubset(set(incoming.keys())):
-        missing_arguments = set(required)-set(incoming.keys())
-        g.error["type"] = "badArgument"
-        g.error["message"] = "You are missing required arguments: {0}".format(missing_arguments)
-    if set(exlusive).issubset(set(incoming.keys())):
-        for arg in exlusive:
-            _pop_arg_from_incoming(arg)
-        if len(incoming):
+    def _check_missing_required_args():
+        if not set(required).issubset(set(incoming.keys())):
+            missing_arguments = set(required)-set(incoming.keys())
             g.error["type"] = "badArgument"
-            g.error["message"] = "You have passed too many arguments together with EXLUSIVE argument."
+            g.error["message"] = "You are missing required arguments: {0}".format(missing_arguments)
+
+    def _check_exclusiv_args():
+        if set(exlusive).issubset(set(incoming.keys())):
+            for arg in exlusive:
+                _pop_arg_from_incoming(arg)
+            if len(incoming):
+                g.error["type"] = "badArgument"
+                g.error["message"] = "You have passed too many arguments together with EXLUSIVE argument."
+
+    _pop_arg_from_incoming("verb")
+    _check_missing_required_args()
+    _check_exclusiv_args()
 
 def identify():
     required_arg = []
