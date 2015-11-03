@@ -4,12 +4,8 @@ Flask-OAIServer
 
 .. image:: https://travis-ci.org/inveniosoftware/flask-oaiserver.png?branch=master
     :target: https://travis-ci.org/inveniosoftware/flask-oaiserver
-.. image:: https://coveralls.io/repos/inveniosoftware/flask-oaiserver/badge.png?branch=master
-    :target: https://coveralls.io/r/inveniosoftware/flask-oaiserver
-.. image:: https://pypip.in/v/Flask-OAIServer/badge.png
-   :target: https://pypi.python.org/pypi/Flask-OAIServer/
-.. image:: https://pypip.in/d/Flask-OAIServer/badge.png
-   :target: https://pypi.python.org/pypi/Flask-OAIServer/
+.. image:: https://coveralls.io/repos/inveniosoftware/flask-oaiserver/badge.svg?branch=master&service=github
+   :target: https://coveralls.io/github/inveniosoftware/flask-oaiserver?branch=master
 
 
 About
