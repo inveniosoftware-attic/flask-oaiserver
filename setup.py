@@ -53,8 +53,8 @@ setup(
     license='BSD',
     author='Invenio collaboration',
     author_email='info@invenio-software.org',
-    description='Flask-OAIServer allows you to quickly add an OAuth2 '
-                'provider to your Flask application.',
+    description='Flask-OAIServer allows you to quickly add an OAI-PMH server'
+                'to your Flask application.',
     long_description=open('README.rst').read(),
     packages=find_packages(),
     zip_safe=False,
