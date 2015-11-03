@@ -45,7 +45,7 @@ install:
 
 script:
   - "pep257 --ignore=D100,D101,D102,D103 flask_oaiserver"
-  - "sphinx-build -qnNW docs docs/_build/html"
+  - "sphinx-build -qnNW docs"
   - "python setup.py test"
 
 after_success:
