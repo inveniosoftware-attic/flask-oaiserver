@@ -21,6 +21,7 @@ blueprint = Blueprint(
     template_folder="../templates/oaiserver/settings",
 )
 
+
 @blueprint.route('/')
 def index():
     return render_template('index.html')

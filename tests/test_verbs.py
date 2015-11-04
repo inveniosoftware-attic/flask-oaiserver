@@ -9,16 +9,15 @@
 
 from __future__ import absolute_import
 from unittest import TestCase
-from flask import request, Response, g
+from flask import g
 from flask_oaiserver.oai import app
 from flask_oaiserver.config import *
 import re
 
 
 class FlaskTestCase(TestCase):
-    """
-    Mix-in class for creating the Flask application
-    """
+
+    """Mix-in class for creating the Flask application"""
 
     def setUp(self):
         self.app = app
@@ -26,18 +25,14 @@ class FlaskTestCase(TestCase):
         pass
 
     def tearDown(self):
-        #self.app = None
         pass
 
 
 class TestVerbs(FlaskTestCase):
-    """
-    Tests OAI-PMH verbs
-    """
+
+    """Tests OAI-PMH verbs"""
+
     def test_no_verb(self):
-        ########
-        ## TODO - remove all placeholder values
-        ########
         with self.app.test_client() as c:
             result = c.get('/oai2d', follow_redirects=True)
             response_date = getattr(g, 'response_date', None)
@@ -49,14 +44,12 @@ class TestVerbs(FlaskTestCase):
     <responseDate>{0}</responseDate>
     <error code="badValue">This is not a valid OAI-PMH verb:None</error>
 </OAI-PMH>""".format(response_date)
-        result_data = re.sub(' +','',result.data.replace('\n',''))
-        expected = re.sub(' +','',expected.replace('\n',''))
-        self.assertEqual(result_data, expected)
+            result_data = result.data.decode("utf-8")
+            result_data = re.sub(' +', '', result_data.replace('\n', ''))
+            expected = re.sub(' +', '', expected.replace('\n', ''))
+            self.assertEqual(result_data, expected)
 
     def test_wrong_verb(self):
-        ########
-        ## TODO - remove all placeholder values
-        ########
         with self.app.test_client() as c:
             result = c.get('/oai2d?verb=Aaa', follow_redirects=True)
             response_date = getattr(g, 'response_date', None)
@@ -68,13 +61,14 @@ class TestVerbs(FlaskTestCase):
     <responseDate>{0}</responseDate>
     <error code="badValue">This is not a valid OAI-PMH verb:Aaa</error>
 </OAI-PMH>""".format(response_date)
-        result_data = re.sub(' +','',result.data.replace('\n',''))
-        expected = re.sub(' +','',expected.replace('\n',''))
-        self.assertEqual(result_data, expected)
+            result_data = result.data.decode("utf-8")
+            result_data = re.sub(' +', '', result_data.replace('\n', ''))
+            expected = re.sub(' +', '', expected.replace('\n', ''))
+            self.assertEqual(result_data, expected)
 
     def test_identify(self):
         ########
-        ## TODO - remove all placeholder values
+        # TODO - remove all placeholder values
         ########
         with self.app.test_client() as c:
             result = c.get('/oai2d?verb=Identify', follow_redirects=True)
@@ -96,17 +90,16 @@ class TestVerbs(FlaskTestCase):
         <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
         <compression>deflate</compression>
      </Identify>
-</OAI-PMH>""".format(response_date,CFG_SITE_NAME, CFG_ADMIN_EMAIL)
-        result_data = re.sub(' +','',result.data.replace('\n',''))
-        expected = re.sub(' +','',expected.replace('\n',''))
-        self.assertEqual(result_data, expected)
+</OAI-PMH>""".format(response_date, CFG_SITE_NAME, CFG_ADMIN_EMAIL)
+            result_data = result.data.decode("utf-8")
+            result_data = re.sub(' +', '', result_data.replace('\n', ''))
+            expected = re.sub(' +', '', expected.replace('\n', ''))
+            self.assertEqual(result_data, expected)
 
     def test_identify_with_additional_args(self):
-        ########
-        ## TODO - remove all placeholder values
-        ########
         with self.app.test_client() as c:
-            result = c.get('/oai2d?verb=Identify&notAValidArg=True', follow_redirects=True)
+            result = c.get('/oai2d?verb=Identify&notAValidArg=True',
+                           follow_redirects=True)
             response_date = getattr(g, 'response_date', None)
             expected = """<?xmlversion="1.0"encoding="UTF-8"?>
 <OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/"
@@ -114,9 +107,14 @@ class TestVerbs(FlaskTestCase):
          xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
          http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
     <responseDate>{0}</responseDate>
-    <request verb="Identify" notAValidArg="True">http://an.oa.org/OAI-script</request>
-    <error code="badArgument">You have passed too many arguments together with EXLUSIVE argument.</error>
+    <request verb="Identify" notAValidArg="True">
+        http://an.oa.org/OAI-script
+    </request>
+    <error code="badArgument">
+        You have passed too many arguments together withEXLUSIVE argument.
+    </error>
 </OAI-PMH>""".format(response_date)
-        result_data = re.sub(' +','',result.data.replace('\n',''))
-        expected = re.sub(' +','',expected.replace('\n',''))
-        self.assertEqual(result_data, expected)
+            result_data = result.data.decode("utf-8")
+            result_data = re.sub(' +', '', result_data.replace('\n', ''))
+            expected = re.sub(' +', '', expected.replace('\n', ''))
+            self.assertEqual(result_data, expected)

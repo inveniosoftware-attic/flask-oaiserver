@@ -3,7 +3,7 @@
 {% block body %}
     {% if g.verb %}
         <request verb="{{ g.verb }}"
-                 {% for key, value in incoming.iteritems() %}
+                 {% for key, value in incoming.items() %}
                     {{ key }}="{{ value }}"
                  {% endfor %}>
                  http://an.oa.org/OAI-script
