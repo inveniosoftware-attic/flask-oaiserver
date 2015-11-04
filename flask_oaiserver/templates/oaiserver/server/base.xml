@@ -6,5 +6,4 @@
     <responseDate>{{ g.response_date }}</responseDate>
     {% block body %}
     {% endblock %}
-
 </OAI-PMH>
