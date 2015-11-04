@@ -12,19 +12,6 @@
 from __future__ import absolute_import
 from flask import (Blueprint,
                    render_template)
-from views.verbs import (identify,
-                         list_sets,
-                         list_metadata_formats,
-                         list_records,
-                         list_identifiers,
-                         get_record)
-
-ALLOWED_VERBS = {'Identify':identify,
-                 'ListSets':list_sets,
-                 'ListMetadataFormats':list_metadata_formats,
-                 'ListRecords':list_records,
-                 'ListIdentifiers':list_identifiers,
-                 'GetRecord':get_record}
 
 blueprint = Blueprint(
     'oaisettings',

@@ -15,14 +15,14 @@ from flask import (Blueprint,
                    render_template,
                    g,
                    make_response)
-from views.verbs import (identify,
-                         list_sets,
-                         list_metadata_formats,
-                         list_records,
-                         list_identifiers,
-                         get_record)
+from ..views.verbs import (identify,
+                           list_sets,
+                           list_metadata_formats,
+                           list_records,
+                           list_identifiers,
+                           get_record)
 from datetime import datetime
-from config import CFG_ADMIN_EMAIL, CFG_SITE_NAME
+from ..config import CFG_ADMIN_EMAIL, CFG_SITE_NAME
 
 ALLOWED_VERBS = {'Identify':identify,
                  'ListSets':list_sets,
