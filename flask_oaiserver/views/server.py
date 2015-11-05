@@ -15,29 +15,30 @@ from flask import (Blueprint,
                    render_template,
                    g,
                    make_response)
-from views.verbs import (identify,
-                         list_sets,
-                         list_metadata_formats,
-                         list_records,
-                         list_identifiers,
-                         get_record)
+from ..views.verbs import (identify,
+                           list_sets,
+                           list_metadata_formats,
+                           list_records,
+                           list_identifiers,
+                           get_record)
 from datetime import datetime
-from config import CFG_ADMIN_EMAIL, CFG_SITE_NAME
+from ..config import CFG_ADMIN_EMAIL, CFG_SITE_NAME
 
-ALLOWED_VERBS = {'Identify':identify,
-                 'ListSets':list_sets,
-                 'ListMetadataFormats':list_metadata_formats,
-                 'ListRecords':list_records,
-                 'ListIdentifiers':list_identifiers,
-                 'GetRecord':get_record}
+ALLOWED_VERBS = {'Identify': identify,
+                 'ListSets': list_sets,
+                 'ListMetadataFormats': list_metadata_formats,
+                 'ListRecords': list_records,
+                 'ListIdentifiers': list_identifiers,
+                 'GetRecord': get_record}
 
 blueprint = Blueprint(
     'oai2d',
     __name__,
     url_prefix='/oai2d',
     static_folder="../static",
-    template_folder="../templates/oaiserver/server",
+    template_folder="../templates/oaiserver/server"
 )
+
 
 @blueprint.route('/', methods=['GET', 'POST'])
 def server():
@@ -49,7 +50,8 @@ def server():
         a = ALLOWED_VERBS[verb]
     except KeyError:
         g.error = {}
-        g.error['message'] = "This is not a valid OAI-PMH verb: {0}".format(verb)
+        g.error['message'] = "This is not a valid OAI-PMH verb: \
+                              {0}".format(verb)
         g.error['type'] = "badValue"
         return render_template("error.xml")
 

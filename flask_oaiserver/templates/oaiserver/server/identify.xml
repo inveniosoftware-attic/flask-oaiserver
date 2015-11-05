@@ -1,5 +1,4 @@
 {% extends "oaiserver/server/base.xml" %}
-
 {% block body %}
 <request verb="Identify">http://memory.loc.gov/cgi-bin/oai</request>
 <Identify>

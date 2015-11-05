@@ -44,8 +44,8 @@ install:
   - "pip install -r .travis-$REQUIREMENTS-requirements.txt"
 
 script:
-  - "pep257 --ignore=D100,D101,D102,D103 flask_oaiserver"
-  - "sphinx-build -qnNW docs"
+  - "pep257 --ignore=D100,D101,D102,D103,D211 flask_oaiserver"
+  #- "sphinx-build -qnNW docs"
   - "python setup.py test"
 
 after_success:

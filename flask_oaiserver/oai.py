@@ -1,6 +1,6 @@
 from flask import Flask
-from views.server import blueprint as server
-from views.settings import blueprint as settings
+from .views.server import blueprint as server
+from .views.settings import blueprint as settings
 
 app = Flask(__name__)
 app.register_blueprint(server)

@@ -1,14 +1,28 @@
+# -*- coding: utf-8 -*-
+#
+# This file is part of Flask-OAIServer
+# Copyright (C) 2015 CERN.
+#
+# Flask-OAIServer is free software; you can redistribute it and/or
+# modify it under the terms of the Revised BSD License; see LICENSE
+# file for more details.
+
+"""OAI-PMH verbs."""
+
 from flask import request, render_template, g
+import six
+
 
 def _get_all_request_args():
     tmp_args_dict = {}
-    for key, value in request.args.iteritems():
+    for key, value in six.iteritems(request.args):
         tmp_args_dict[key] = value
     return tmp_args_dict
 
+
 def _check_args(incoming, required, optional, exlusive):
-    ## TODO: include checking for duplicated arguments
-    ## TODO: check for more arguments passed
+    # TODO: include checking for duplicated arguments
+    # TODO: check for more arguments passed
     g.verb = incoming["verb"]
     g.error = {}
 
@@ -24,7 +38,8 @@ def _check_args(incoming, required, optional, exlusive):
         if not set(required).issubset(set(incoming.keys())):
             missing_arguments = set(required)-set(incoming.keys())
             g.error["type"] = "badArgument"
-            g.error["message"] = "You are missing required arguments: {0}".format(missing_arguments)
+            g.error["message"] = "You are missing required arguments: \
+                                  {0}".format(missing_arguments)
 
     def _check_exclusiv_args():
         if set(exlusive).issubset(set(incoming.keys())):
@@ -32,11 +47,13 @@ def _check_args(incoming, required, optional, exlusive):
                 _pop_arg_from_incoming(arg)
             if len(incoming):
                 g.error["type"] = "badArgument"
-                g.error["message"] = "You have passed too many arguments together with EXLUSIVE argument."
+                g.error["message"] = "You have passed too many arguments \
+                                      together with EXLUSIVE argument."
 
     _pop_arg_from_incoming("verb")
     _check_missing_required_args()
     _check_exclusiv_args()
+
 
 def identify():
     required_arg = []
@@ -49,6 +66,7 @@ def identify():
     else:
         return render_template("identify.xml")
 
+
 def list_sets():
     required_arg = []
     optional_arg = []
@@ -60,17 +78,20 @@ def list_sets():
     else:
         return render_template("list_sets.xml",
                                incoming=incoming,
-                               sets=[{'spec':'music',
-                                      'name':'Music collection',
-                                      'description':'This is a collection of wide range of music.'},
-                                     {'spec':'music:(chopin)',
-                                      'name':'Chopin collection',
-                                      'description':'Collection of music composed by Chopin'},
-                                     {'spec':'music:(techno)',
-                                      'name':'Techno music collection'},
-                                     {'spec':'pictures',
-                                      'name':'Pictures collection'}
+                               sets=[{'spec': 'music',
+                                      'name': 'Music collection',
+                                      'description': 'This is a collection of \
+                                                      wide range of music.'},
+                                     {'spec': 'music:(chopin)',
+                                      'name': 'Chopin collection',
+                                      'description': 'Collection of music \
+                                                      composed by Chopin'},
+                                     {'spec': 'music:(techno)',
+                                      'name': 'Techno music collection'},
+                                     {'spec': 'pictures',
+                                      'name': 'Pictures collection'}
                                      ])
+
 
 def list_metadata_formats():
     required_arg = []
@@ -83,13 +104,18 @@ def list_metadata_formats():
     else:
         return render_template("list_metadata_formats.xml",
                                incoming=incoming,
-                               formats=[{'prefix':'oai_dc',
-                                         'schema':'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
-                                         'namespace':'http://www.openarchives.org/OAI/2.0/oai_dc/'},
-                                        {'prefix':'marcxml',
-                                         'schema':'http://purl.org/dc/elements/1.1/',
-                                         'namespace':'http://www.openarchives.org/OAI/1.1/dc.xsd'}
+                               formats=[{'prefix': 'oai_dc',
+                                         'schema': 'http://www.openarchives.org\
+                                                    /OAI/2.0/oai_dc.xsd',
+                                         'namespace': 'http://www.openarchives.\
+                                                       org/OAI/2.0/oai_dc/'},
+                                        {'prefix': 'marcxml',
+                                         'schema': 'http://purl.org/dc/elements\
+                                                    /1.1/',
+                                         'namespace': 'http://www.openarchives.\
+                                                       org/OAI/1.1/dc.xsd'}
                                         ])
+
 
 def list_records():
     required_arg = ["metadataPrefix"]
@@ -102,16 +128,17 @@ def list_records():
     else:
         return render_template("list_records.xml",
                                incoming=incoming,
-                               records=[{'identifier':'tmpidentifier1',
-                                         'datestamp':'2015-10-06',
-                                         'sets':['set1']},
-                                        {'identifier':'tmpidentifier2',
-                                         'datestamp':'2003-04-01',
-                                         'sets':['set1','set2']},
-                                        {'identifier':'tmpidentifier3',
-                                         'datestamp':'2014-07-13',
-                                         'sets':['set3','set1']}
+                               records=[{'identifier': 'tmpidentifier1',
+                                         'datestamp': '2015-10-06',
+                                         'sets': ['set1']},
+                                        {'identifier': 'tmpidentifier2',
+                                         'datestamp': '2003-04-01',
+                                         'sets': ['set1', 'set2']},
+                                        {'identifier': 'tmpidentifier3',
+                                         'datestamp': '2014-07-13',
+                                         'sets': ['set3', 'set1']}
                                         ])
+
 
 def list_identifiers():
     required_arg = ["metadataPrefix"]
@@ -124,19 +151,20 @@ def list_identifiers():
     else:
         return render_template("list_identifiers.xml",
                                incoming=incoming,
-                               records=[{'identifier':'tmpidentifier1',
-                                         'datestamp':'2015-10-06',
-                                         'sets':['set1']},
-                                        {'identifier':'tmpidentifier2',
-                                         'datestamp':'2003-04-01',
-                                         'sets':['set1','set2']},
-                                        {'identifier':'tmpidentifier3',
-                                         'datestamp':'2014-07-13',
-                                         'sets':['set3','set1']}
+                               records=[{'identifier': 'tmpidentifier1',
+                                         'datestamp': '2015-10-06',
+                                         'sets': ['set1']},
+                                        {'identifier': 'tmpidentifier2',
+                                         'datestamp': '2003-04-01',
+                                         'sets': ['set1', 'set2']},
+                                        {'identifier': 'tmpidentifier3',
+                                         'datestamp': '2014-07-13',
+                                         'sets': ['set3', 'set1']}
                                         ])
 
+
 def get_record():
-    required_arg = ["identifier","metadataPrefix"]
+    required_arg = ["identifier", "metadataPrefix"]
     optional_arg = []
     exclusiv_arg = []
     incoming = _get_all_request_args()
@@ -144,4 +172,5 @@ def get_record():
     if g.error:
         return render_template("error.xml", incoming=incoming)
     else:
-        return "This is the requested record with {0} identifier in format {1}".format(incoming["identifier"], incoming["metadatePrefix"])
+        return "This is the requested record with {0} identifier in format \
+                {1}".format(incoming["identifier"], incoming["metadatePrefix"])
