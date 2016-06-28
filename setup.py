@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Flask-OAIServer
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Flask-OAIServer is free software; you can redistribute it and/or
 # modify it under the terms of the Revised BSD License; see LICENSE
@@ -81,7 +81,7 @@ setup(
         'pytest>=2.6.1',
         'coverage',
         'mock',
-        'pep257',
+        'pydocstyle>=1.0.0',
     ],
     classifiers=[
         'Environment :: Web Environment',

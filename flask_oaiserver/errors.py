@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Flask-OAIServer
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Flask-OAIServer is free software; you can redistribute it and/or
 # modify it under the terms of the Revised BSD License; see LICENSE
@@ -73,7 +73,7 @@ class BadVerbError(Exception):
                                      repr(self.payload) or "None")
 
     def __repr__(self):
-        """print method representation."""
+        """Print method representation."""
         g.error = {}
         g.error['message'] = self.message
         g.error['type'] = "badVerb"

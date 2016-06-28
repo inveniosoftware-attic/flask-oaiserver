@@ -39,12 +39,12 @@ env:
 
 install:
   - "pip install --upgrade pip"
-  - "pip install coveralls pep257"
+  - "pip install coveralls pydocstyle"
   - "pip install pytest pytest-pep8 pytest-cov pytest-cache"
   - "pip install -r .travis-$REQUIREMENTS-requirements.txt"
 
 script:
-  - "pep257 --ignore=D100,D101,D102,D103,D211 flask_oaiserver"
+  - "pydocstyle --ignore=D100,D101,D102,D103,D211 flask_oaiserver"
   #- "sphinx-build -qnNW docs"
   - "python setup.py test"
 
